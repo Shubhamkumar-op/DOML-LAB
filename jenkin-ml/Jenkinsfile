@@ -40,7 +40,52 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('jenkin-ml') {
-                    bat '.venv\\Scripts\\python.exe app.py'
+                    powershell '''
+                        $ErrorActionPreference = "Stop"
+                        $appDir = Join-Path $env:WORKSPACE "jenkin-ml"
+                        $python = Join-Path $appDir ".venv\\Scripts\\python.exe"
+
+                        $listener = Get-NetTCPConnection -LocalPort 5000 -State Listen -ErrorAction SilentlyContinue
+                        if ($listener) {
+                            throw "Port 5000 is busy. Stop the manually running Flask app first."
+                        }
+
+                        $env:JENKINS_NODE_COOKIE = "dontKillMe"
+
+                        $server = Start-Process `
+                            -FilePath $python `
+                            -ArgumentList "app.py" `
+                            -WorkingDirectory $appDir `
+                            -PassThru `
+                            -WindowStyle Hidden `
+                            -RedirectStandardOutput (Join-Path $appDir "app.log") `
+                            -RedirectStandardError (Join-Path $appDir "app-error.log")
+
+                        $healthy = $false
+
+                        for ($i = 0; $i -lt 15; $i++) {
+                            Start-Sleep -Seconds 2
+                            try {
+                                $response = Invoke-WebRequest `
+                                    -Uri "http://127.0.0.1:5000/" `
+                                    -UseBasicParsing `
+                                    -TimeoutSec 3
+
+                                if ($response.StatusCode -eq 200) {
+                                    $healthy = $true
+                                    break
+                                }
+                            }
+                            catch {}
+                        }
+
+                        if (-not $healthy) {
+                            Get-Content (Join-Path $appDir "app-error.log") -ErrorAction SilentlyContinue
+                            throw "Flask deployment health check failed."
+                        }
+
+                        Write-Output "ML Model deployed successfully at http://localhost:5000"
+                    '''
                 }
             }
         }
