@@ -1,4 +1,4 @@
-pipeline {
+﻿pipeline {
     agent any
 
     options {
@@ -40,17 +40,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('jenkin-ml') {
-                    bat '''
-                    powershell -NoProfile -ExecutionPolicy Bypass -Command "$appDir = Join-Path $env:WORKSPACE 'jenkin-ml'; $python = Join-Path $appDir '.venv\\Scripts\\python.exe'; $listener = Get-NetTCPConnection -LocalPort 5000 -State Listen -ErrorAction SilentlyContinue; if ($listener) { throw 'Port 5000 is busy. Stop the existing Flask app before deployment.' }; $server = Start-Process -FilePath $python -ArgumentList 'app.py' -WorkingDirectory $appDir -PassThru -WindowStyle Hidden -RedirectStandardOutput (Join-Path $appDir 'app.log') -RedirectStandardError (Join-Path $appDir 'app-error.log'); Start-Sleep -Seconds 5; try { $response = Invoke-WebRequest -Uri 'http://127.0.0.1:5000/' -UseBasicParsing -TimeoutSec 10; if ($response.Content -notmatch 'ML Model is deployed successfully!') { throw 'Health check failed' }; Write-Output 'ML Model deployed successfully!' } catch { Stop-Process -Id $server.Id -Force -ErrorAction SilentlyContinue; throw }"
-                    '''
+                    bat '.venv\\Scripts\\python.exe app.py'
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            archiveArtifacts artifacts: 'jenkin-ml/model.joblib,jenkin-ml/app.py,jenkin-ml/requirements.txt', allowEmptyArchive: true
         }
     }
 }
