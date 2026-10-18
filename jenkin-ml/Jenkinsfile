@@ -1,0 +1,48 @@
+﻿pipeline {
+    agent any
+
+    stages {
+        stage('Clone') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Shubhamkumar-op/DOML-LAB.git'
+            }
+        }
+
+        stage('Install') {
+            steps {
+                dir('jenkin-ml') {
+                    bat 'python -m pip install -r requirements.txt'
+                }
+            }
+        }
+
+        stage('Train') {
+            steps {
+                dir('jenkin-ml') {
+                    bat 'python train.py'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir('jenkin-ml') {
+                    bat 'python test.py'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                dir('jenkin-ml') {
+                    bat '''
+                    powershell -NoProfile -Command "Start-Process -FilePath python -ArgumentList 'app.py' -RedirectStandardOutput 'app.log' -RedirectStandardError 'app-error.log' -WindowStyle Hidden"
+                    timeout /t 5 /nobreak >nul
+                    curl --fail http://127.0.0.1:5000/
+                    '''
+                }
+            }
+        }
+    }
+}
