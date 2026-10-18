@@ -1,18 +1,22 @@
 pipeline {
     agent any
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
     stages {
         stage('Clone') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/Shubhamkumar-op/DOML-LAB.git'
+                checkout scm
             }
         }
 
         stage('Install') {
             steps {
                 dir('jenkin-ml') {
-                    bat 'python -m pip install -r requirements.txt'
+                    bat '"C:\\Users\\singh\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m venv .venv'
+                    bat '.venv\\Scripts\\python.exe -m pip install -r requirements.txt'
                 }
             }
         }
@@ -20,7 +24,7 @@ pipeline {
         stage('Train') {
             steps {
                 dir('jenkin-ml') {
-                    bat 'python train.py'
+                    bat '.venv\\Scripts\\python.exe train.py'
                 }
             }
         }
@@ -28,7 +32,7 @@ pipeline {
         stage('Test') {
             steps {
                 dir('jenkin-ml') {
-                    bat 'python test.py'
+                    bat '.venv\\Scripts\\python.exe test.py'
                 }
             }
         }
@@ -37,12 +41,16 @@ pipeline {
             steps {
                 dir('jenkin-ml') {
                     bat '''
-                    powershell -NoProfile -Command "Start-Process -FilePath python -ArgumentList 'app.py' -RedirectStandardOutput 'app.log' -RedirectStandardError 'app-error.log' -WindowStyle Hidden"
-                    timeout /t 5 /nobreak >nul
-                    curl --fail http://127.0.0.1:5000/
+                    powershell -NoProfile -ExecutionPolicy Bypass -Command "$appDir = Join-Path $env:WORKSPACE 'jenkin-ml'; $python = Join-Path $appDir '.venv\\Scripts\\python.exe'; $listener = Get-NetTCPConnection -LocalPort 5000 -State Listen -ErrorAction SilentlyContinue; if ($listener) { throw 'Port 5000 is busy. Stop the existing Flask app before deployment.' }; $server = Start-Process -FilePath $python -ArgumentList 'app.py' -WorkingDirectory $appDir -PassThru -WindowStyle Hidden -RedirectStandardOutput (Join-Path $appDir 'app.log') -RedirectStandardError (Join-Path $appDir 'app-error.log'); Start-Sleep -Seconds 5; try { $response = Invoke-WebRequest -Uri 'http://127.0.0.1:5000/' -UseBasicParsing -TimeoutSec 10; if ($response.Content -notmatch 'ML Model is deployed successfully!') { throw 'Health check failed' }; Write-Output 'ML Model deployed successfully!' } catch { Stop-Process -Id $server.Id -Force -ErrorAction SilentlyContinue; throw }"
                     '''
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'jenkin-ml/model.joblib,jenkin-ml/app.py,jenkin-ml/requirements.txt', allowEmptyArchive: true
         }
     }
 }
