@@ -1,0 +1,5 @@
+@"
+optuna
+mlflow
+scikit-learn
+"@ | Set-Content requirements.txt
