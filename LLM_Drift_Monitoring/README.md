@@ -1,8 +1,8 @@
-\# Experiment-12: LLM Output Drift Monitoring using Gemma, Evidently and Streamlit
+# Experiment-12: LLM Output Drift Monitoring using Gemma, Evidently and Streamlit
 
 
 
-\## Aim
+## Aim
 
 
 
@@ -10,7 +10,7 @@ To deploy a small Large Language Model (LLM) pipeline, monitor its outputs for s
 
 
 
-\## Project Description
+## Project Description
 
 
 
@@ -18,33 +18,33 @@ This project uses the locally installed Gemma 3 4B model through Ollama to gener
 
 
 
-\## Technologies Used
+## Technologies Used
 
 
 
-\- Python
+- Python
 
-\- Ollama
+- Ollama
 
-\- Gemma 3 4B (`gemma3:4b`)
+- Gemma 3 4B (`gemma3:4b`)
 
-\- Sentence Transformers (`all-MiniLM-L6-v2`)
+- Sentence Transformers (`all-MiniLM-L6-v2`)
 
-\- Evidently
+- Evidently
 
-\- Streamlit
+- Streamlit
 
-\- Pandas
+- Pandas
 
-\- NumPy
+- NumPy
 
-\- Scikit-learn
+- Scikit-learn
 
-\- Requests
+- Requests
 
 
 
-\## Project Structure
+## Project Structure
 
 
 
@@ -72,11 +72,11 @@ The HTML reports and CSV file are generated after running the monitoring dashboa
 
 
 
-\## Installation
+## Installation
 
 
 
-\### 1. Install the required libraries
+### 1. Install the required libraries
 
 
 
@@ -92,7 +92,7 @@ python -m pip install -r requirements.txt
 
 
 
-\### 2. Verify the local Gemma model
+### 2. Verify the local Gemma model
 
 
 
@@ -152,7 +152,7 @@ Click \*\*Run LLM Drift Monitoring\*\* to start the experiment.
 
 
 
-\## Monitoring Workflow
+## Monitoring Workflow
 
 
 
@@ -174,7 +174,7 @@ Click \*\*Run LLM Drift Monitoring\*\* to start the experiment.
 
 
 
-\## Generated Reports
+## Generated Reports
 
 
 
@@ -182,11 +182,11 @@ The application creates:
 
 
 
-\- `llm\_drift\_dashboard.html` — Evidently report comparing reference and current output embeddings.
+- `llm\_drift\_dashboard.html` — Evidently report comparing reference and current output embeddings.
 
-\- `llm\_drift\_dashboard\_synthetic.html` — Evidently report comparing reference and synthetic drift embeddings.
+- `llm\_drift\_dashboard\_synthetic.html` — Evidently report comparing reference and synthetic drift embeddings.
 
-\- `llm\_monitoring\_outputs.csv` — CSV containing reference, current, and synthetic drift outputs.
+- `llm\_monitoring\_outputs.csv` — CSV containing reference, current, and synthetic drift outputs.
 
 
 
@@ -194,7 +194,7 @@ The HTML reports can be opened in a web browser.
 
 
 
-\## Metrics
+## Metrics
 
 
 
@@ -210,7 +210,7 @@ Evidently also compares the statistical distributions of embedding features betw
 
 
 
-\## Screenshots
+## Screenshots
 
 
 
@@ -218,19 +218,19 @@ Add screenshots showing:
 
 
 
-1\. The Streamlit dashboard.
+1. The Streamlit dashboard.
 
-2\. Reference, current, and synthetic drift outputs.
+2. Reference, current, and synthetic drift outputs.
 
-3\. Cosine similarity metrics and the similarity matrix.
+3. Cosine similarity metrics and the similarity matrix.
 
-4\. Evidently report generation.
+4. Evidently report generation.
 
-5\. The generated HTML report opened in a browser.
+5. The generated HTML report opened in a browser.
 
 
 
-\## Result
+## Result
 
 
 
@@ -238,7 +238,7 @@ A local LLM monitoring pipeline was implemented using Gemma 3 4B, Ollama, Senten
 
 
 
-\## Conclusion
+## Conclusion
 
 
 
@@ -246,7 +246,7 @@ This experiment demonstrates a basic approach to monitoring LLM output changes o
 
 
 
-\## Limitations
+## Limitations
 
 
 
