@@ -1,0 +1,19 @@
+batch,query,context,answer,Query,Context Relevant,Length OK,Possible Hallucination Risk,Answer Word Count
+reference,What are effects of floods?,"Floods cause severe damage to infrastructure, homes, roads, and agriculture.
+Earthquakes can destroy buildings, damage roads, and lead to injuries and loss of life.","Floods cause severe damage to infrastructure, homes, roads, and agriculture.",What are effects of floods?,True,True,False,10
+reference,How do earthquakes impact humans?,"Earthquakes can destroy buildings, damage roads, and lead to injuries and loss of life.
+Floods cause severe damage to infrastructure, homes, roads, and agriculture.",Earthquakes can lead to injuries and loss of life.,How do earthquakes impact humans?,True,True,False,9
+reference,What is disaster management?,"Disaster management involves preparedness, rescue, relief, recovery, and rehabilitation.
+Early warning systems help communities prepare for hazards and reduce disaster impacts.","Disaster management involves preparedness, rescue, relief, recovery, and rehabilitation.",What is disaster management?,True,True,False,9
+current,Impact of floods on cities?,"Floods cause severe damage to infrastructure, homes, roads, and agriculture.
+Earthquakes can destroy buildings, damage roads, and lead to injuries and loss of life.","Floods cause severe damage to infrastructure, homes, roads, and agriculture.",Impact of floods on cities?,True,True,False,10
+current,Explain earthquake damage?,"Earthquakes can destroy buildings, damage roads, and lead to injuries and loss of life.
+Floods cause severe damage to infrastructure, homes, roads, and agriculture.","Earthquakes can destroy buildings, damage roads, and lead to injuries and loss of life.",Explain earthquake damage?,True,True,False,14
+current,Role of disaster response teams?,"Disaster management involves preparedness, rescue, relief, recovery, and rehabilitation.
+Early warning systems help communities prepare for hazards and reduce disaster impacts.","The context indicates that disaster response teams are involved in rescue, relief, recovery, and rehabilitation.",Role of disaster response teams?,True,True,False,15
+synthetic_drift,Space disasters and satellites?,"Earthquakes can destroy buildings, damage roads, and lead to injuries and loss of life.
+Floods cause severe damage to infrastructure, homes, roads, and agriculture.",The provided context is insufficient.,Space disasters and satellites?,False,True,True,5
+synthetic_drift,Ocean storms impact?,"Floods cause severe damage to infrastructure, homes, roads, and agriculture.
+Early warning systems help communities prepare for hazards and reduce disaster impacts.","The provided context is insufficient. It states that floods cause severe damage to infrastructure, homes, roads, and agriculture.",Ocean storms impact?,True,True,False,18
+synthetic_drift,Alien invasion effects?,"Wildfires spread rapidly in dry forest areas and threaten wildlife, homes, and air quality.
+Earthquakes can destroy buildings, damage roads, and lead to injuries and loss of life.",The provided context is insufficient.,Alien invasion effects?,False,True,True,5

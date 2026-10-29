@@ -1,0 +1,11 @@
+streamlit
+requests
+langchain-community
+langchain-huggingface
+langchain-core
+faiss-cpu
+sentence-transformers
+evidently
+pandas
+numpy
+scikit-learn
